@@ -414,8 +414,8 @@ function setupDynamicEquipmentTransfers(){
                     let transferBtn = document.createElement('button');
                     transferBtn.innerHTML = '<i data-feather="refresh-ccw"></i>';
                     transferBtn.classList.add('requestExpendedBtn');
-                    transferBtn.setAttribute('roomName', roomName);
-                    transferBtn.setAttribute('equipment',equipment['name']);
+                    transferBtn.setAttribute('roomName', roomEquipmentPair['key']);
+                    transferBtn.setAttribute('equipment',roomEquipmentPair['value']['name']);
                     transferBtn.addEventListener('click', function (e) {
                         transferEquipment(this.getAttribute('roomName'),this.getAttribute('equipment'));
                     });
@@ -1060,8 +1060,8 @@ function transferEquipment(roomName,equipmentName){
     dynamicEquipmentForm.addEventListener('submit', function (e) {
         dynamicEquipmentPrompt.classList.add('off');
         main.classList.remove('hideMain');
+
         e.preventDefault();
-        e.stopImmediatePropagation();
 
         let transferRoom = document.getElementById('selectRoomTransfer').value;
         let transferQuantity = document.getElementById('transferQuantity').value;
@@ -1072,6 +1072,7 @@ function transferEquipment(roomName,equipmentName){
                 if (this.status == 200) {
                     alert("Equipment successfuly transfered!");
                     setUpFunctionality();
+                    dynamicEquipmentForm.removeEventListener('submit',e);
                 }
             }
         }
